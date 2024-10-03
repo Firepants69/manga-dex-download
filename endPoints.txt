@@ -1,0 +1,5 @@
+mangas = "https://api.mangadex.org/manga/"
+chapters = "https://api.mangadex.org/chapter"
+chapter = "https://api.mangadex.org/at-home/server/"
+
+crear una imagen = {BASE_URL}/data/{HASH}/{data}
