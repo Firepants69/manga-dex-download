@@ -8,7 +8,7 @@ class MangaService {
     async getMangas(title) {
         const filters = {
             title: title,
-            availableTranslatedLanguage: ['es', 'es-la']
+            availableTranslatedLanguage: ['es-la', 'es', 'en']
         }
         try {
 

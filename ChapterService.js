@@ -16,7 +16,7 @@ class ChapterService {
             const filters = {
                 limit: limit,
                 manga: manga_id,
-                translatedLanguage: ['es-la', 'es'],
+                translatedLanguage: ['es-la', 'es', 'en'],
                 offset: offset
             }
 
@@ -54,6 +54,9 @@ class ChapterService {
         const result = await response.json()
         const baseURL = result.baseUrl
         const hash = result.chapter.hash
+        console.log(result.chapter.data.map((imagen) => (
+            `${baseURL}/data/${hash}/${imagen}`
+        )))
         return {
             baseURL,
             hash,
