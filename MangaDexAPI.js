@@ -60,9 +60,9 @@ async function main() {
     const manga_index_selected = await makeQuestion("elige el manga por el indice: ")
     const chapters = await api.getChapters(data[manga_index_selected].id)
     console.table(chapters.map((chapter) => [chapter.chapterNumber, chapter.title]))
-    const chapterNumber = await makeQuestion("elige el numero de capitulo: ")
-
-    const chapterSelected = chapters.find((chapter) => chapter.chapterNumber == chapterNumber)
+    const chapterIndex = await makeQuestion("elige el capitulo por el indice no numero: ")
+    const chapterSelected = chapters[chapterIndex]
+    const chapterNumber = chapters[chapterIndex].chapterNumber
     fs.mkdirSync(`imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
     api.downloadChapterImages(chapterSelected.id, `imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
     rl.close()
