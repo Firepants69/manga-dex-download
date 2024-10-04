@@ -25,7 +25,7 @@ class MangaService {
             return mangas_information; // Devolvemos el resultado después de procesar la respuesta
         } catch (error) {
             console.error("Error fetching mangas:", error)
-            return {}
+            return []
         }
     }
 
