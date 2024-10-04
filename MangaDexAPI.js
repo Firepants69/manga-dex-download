@@ -1,48 +1,39 @@
-import MangaService from "./MangaService.js";
-import ChapterService from "./ChapterService.js";
-import ImageService from "./ImageService.js";
+import MangaService from './MangaService.js';
+import ChapterService from './ChapterService.js';
+import ImageService from './ImageService.js';
 import readline from 'node:readline';
 import { stdin as input, stdout as output } from 'node:process';
 import fs from 'node:fs';
 
 class MangaDexAPI {
-    #mangaService
-    #chapterService
-    #imageService
-    constructor() {
-        this.#mangaService = new MangaService()
-        this.#chapterService = new ChapterService()
-        this.#imageService = new ImageService()
-    }
-
-    searchManga(title) {
-        return this.#mangaService.getMangas(title)
-    }
-
-    async getChapters(mangaID) {
-        const chapters = await this.#chapterService.getChapters(mangaID)
-        return chapters
-    }
-
-    downloadChapterImages(chapterID, outputDir) {
-        this.#chapterService.getImages(chapterID)
-            .then((data) => {
-                this.#imageService.downloadImages(data.data, outputDir);
-            })
-            .catch(error => {
-                console.error("Error downloading chapter images:", error);
-            });
-    }
-
 
 }
 
-const api = new MangaDexAPI()
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const api = new MangaDexAPI()
+
+// const rl = readline.createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+// });
 
 // function makeQuestion(question) {
 //     return new Promise((resolve) => {
@@ -60,11 +51,10 @@ const rl = readline.createInterface({
 //     const manga_index_selected = await makeQuestion("elige el manga por el indice: ")
 //     const chapters = await api.getChapters(data[manga_index_selected].id)
 //     console.table(chapters.map((chapter) => [chapter.chapterNumber, chapter.title]))
-//     const chapterNumber = await makeQuestion("elige el numero de capitulo: ")
-
-//     const chapterSelected = chapters.find((chapter) => chapter.chapterNumber == chapterNumber)
-//     fs.mkdirSync(`imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
-//     api.downloadChapterImages(chapterSelected.id, `imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
+//     const chapterIndex = await makeQuestion("elige un capitulo por el indice ")
+//     const chapterSelected = chapters[chapterIndex]
+//     fs.mkdirSync(`imagenes/${data[manga_index_selected].title.en + chapterSelected.chapterNumber}`)
+//     api.downloadChapterImages(chapterSelected.id, `imagenes/${data[manga_index_selected].title.en + chapterSelected.chapterNumber}`)
 //     rl.close()
 // }
 // main()
