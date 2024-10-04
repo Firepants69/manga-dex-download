@@ -1,8 +1,9 @@
+import axios from "axios"
 
 class ChapterService {
     #URL
     constructor() {
-        this.#URL = "https://api.mangadex.org/"
+        this.#URL = "https://api.mangadex.org"
     }
 
     async getChapters(manga_id) {
@@ -12,19 +13,21 @@ class ChapterService {
         let data = [] // Inicializamos como un array vacío
 
         do {
-            const params = new URLSearchParams({
-                'limit': limit,
-                'manga': manga_id,
-                'translatedLanguage[]': 'es-la',
-                'offset': offset,
-            });
-
-            const response = await fetch(`${this.#URL}chapter?${params}`)
-            if (!response.ok) {
-                throw new Error(`Error fetching chapters: ${response.statusText}`)
+            const filters = {
+                limit: limit,
+                manga: manga_id,
+                translatedLanguage: ['es-la', 'es'],
+                offset: offset
             }
 
-            const result = await response.json();
+            const response = await axios({
+                method: 'GET',
+                url: `${this.#URL}/chapter`,
+                params: filters
+            })
+
+
+            const result = response.data
             data = result.data; // Guardamos los datos obtenidos
 
             // Agregar capítulos a la colección
@@ -44,7 +47,7 @@ class ChapterService {
     }
 
     async getImages(chapterID) {
-        const response = await fetch(`${this.#URL}at-home/server/${chapterID}`)
+        const response = await fetch(`${this.#URL}/at-home/server/${chapterID}`)
         if (!response.ok) {
             throw new Error(`Error fetching chapters: ${response.statusText}`)
         }
@@ -62,5 +65,11 @@ class ChapterService {
     }
 
 }
+
+// const cservice = new ChapterService()
+// const chapters = cservice.getChapters('c52b2ce3-7f95-469c-96b0-479524fb7a1a')
+// chapters.then(data => console.table(data))
+// const chapter = cservice.getImages('777e6f44-b376-4ef7-b087-5d0a65b3d242')
+// chapter.then(data => console.log(data))
 
 export default ChapterService;

@@ -1,3 +1,4 @@
+import axios from "axios"
 class MangaService {
     #URL
     constructor() {
@@ -5,17 +6,19 @@ class MangaService {
     }
 
     async getMangas(title) {
-        const params = new URLSearchParams({
-            title,
-            'availableTranslatedLanguage[]': 'es-la'
-        })
+        const filters = {
+            title: title,
+            availableTranslatedLanguage: ['es', 'es-la']
+        }
         try {
 
-            const response = await fetch(`${this.#URL}/manga?${params}`)
+            const response = await axios({
+                method: 'GET',
+                url: `${this.#URL}/manga`,
+                params: filters
+            })
 
-            const data = await response.json()
-
-            const mangas_information = data.data.map((manga) => ({
+            const mangas_information = response.data.data.map((manga) => ({
                 title: manga.attributes.title,
                 id: manga.id,
                 attributes: manga.attributes
@@ -25,10 +28,14 @@ class MangaService {
             return mangas_information; // Devolvemos el resultado después de procesar la respuesta
         } catch (error) {
             console.error("Error fetching mangas:", error)
-            return []
+            return {}
         }
     }
 
 }
+
+// const mangas = new MangaService()
+// mangas.getMangas("dragon ball").then(data => console.log(data))
+
 
 export default MangaService
