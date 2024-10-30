@@ -19,15 +19,23 @@ class MangaDexAPI {
         return this.#mangaService.getMangas(title)
     }
 
-    async getChapters(mangaID) {
-        const chapters = await this.#chapterService.getChapters(mangaID)
+    async getChapters(mangaID,limit,offset,languages) {
+        const chapters = await this.#chapterService.getChapters(mangaID,limit,offset,languages)
         return chapters
     }
 
-    downloadChapterImages(chapterID, outputDir) {
-        this.#chapterService.getImages(chapterID)
+    downloadChapterImages(chapter,manga) {
+        this.#chapterService.getImages(chapter.id)
             .then((data) => {
-                this.#imageService.downloadImages(data.data, outputDir);
+                if(!fs.existsSync("imagenes")){
+                    fs.mkdirSync("imagenes")
+                    
+                }
+                if(!fs.existsSync(`imagenes/${manga.title.en + chapter.chapterNumber}`)){
+                    fs.mkdirSync(`imagenes/${manga.title.en + chapter.chapterNumber}`)
+                }
+
+                this.#imageService.downloadImages(data.data,`imagenes/${manga.title.en + chapter.chapterNumber}`);
             })
             .catch(error => {
                 console.error("Error downloading chapter images:", error);
@@ -36,6 +44,8 @@ class MangaDexAPI {
 
 
 }
+//fs.mkdirSync(`imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
+
 const api = new MangaDexAPI()
 const rl = readline.createInterface({
     input: process.stdin,
@@ -56,13 +66,12 @@ async function main() {
     console.table(data.map((manga) => manga.title))
 
     const manga_index_selected = await makeQuestion("elige el manga por el indice: ")
-    const chapters = await api.getChapters(data[manga_index_selected].id)
-    console.table(chapters.map((chapter) => [chapter.chapterNumber, chapter.title]))
+    const chapters = await api.getChapters(data[manga_index_selected].id,20,0,["es-la"])
+    console.table(chapters.chapters.map((chapter) => [chapter.chapterNumber, chapter.title]))
+    console.log("ultima pagina",chapters.total)
     const chapterIndex = await makeQuestion("elige el capitulo por el indice no numero: ")
-    const chapterSelected = chapters[chapterIndex]
-    const chapterNumber = chapters[chapterIndex].chapterNumber
-    fs.mkdirSync(`imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
-    api.downloadChapterImages(chapterSelected.id, `imagenes/${data[manga_index_selected].title.en + chapterNumber}`)
+    const chapterSelected = chapters.chapters[chapterIndex]
+    api.downloadChapterImages(chapterSelected,data[manga_index_selected])
     rl.close()
 }
 main()

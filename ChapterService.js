@@ -6,17 +6,15 @@ class ChapterService {
         this.#URL = "https://api.mangadex.org"
     }
 
-    async getChapters(manga_id) {
-        const limit = 20
-        let offset = 0
+    async getChapters(manga_id,limit = 20,offset = 0,languages) {
+        
         let chapters = new Set()
         let data = [] // Inicializamos como un array vacío
 
-        do {
             const filters = {
                 limit: limit,
                 manga: manga_id,
-                translatedLanguage: ['es-la', 'es', 'en'],
+                translatedLanguage: languages,
                 offset: offset
             }
 
@@ -29,7 +27,6 @@ class ChapterService {
 
             const result = response.data
             data = result.data; // Guardamos los datos obtenidos
-
             // Agregar capítulos a la colección
             data.forEach((chapter) => {
                 chapters.add({
@@ -39,11 +36,8 @@ class ChapterService {
                 })
             })
 
-            // Incrementar el offset después de la primera solicitud
-            offset += limit; // Incrementamos en base al límite
-        } while (data.length > 0) // Continuar mientras haya datos
 
-        return Array.from(chapters)
+        return {chapters:Array.from(chapters),total:result.total}
     }
 
     async getImages(chapterID) {
