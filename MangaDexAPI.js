@@ -1,8 +1,7 @@
-import MangaService from './MangaService.js';
-import ChapterService from './ChapterService.js';
-import ImageService from './ImageService.js';
+import MangaService from "./MangaService.js";
+import ChapterService from "./ChapterService.js";
+import ImageService from "./ImageService.js";
 import readline from 'node:readline';
-import { stdin as input, stdout as output } from 'node:process';
 import fs from 'node:fs';
 
 class MangaDexAPI {
@@ -14,22 +13,7 @@ class MangaDexAPI {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const api = new MangaDexAPI()
-
 // const rl = readline.createInterface({
 //     input: process.stdin,
 //     output: process.stdout
@@ -49,15 +33,30 @@ class MangaDexAPI {
 //     console.table(data.map((manga) => manga.title))
 
 //     const manga_index_selected = await makeQuestion("elige el manga por el indice: ")
-//     const chapters = await api.getChapters(data[manga_index_selected].id)
-//     console.table(chapters.map((chapter) => [chapter.chapterNumber, chapter.title]))
-//     const chapterIndex = await makeQuestion("elige un capitulo por el indice ")
-//     const chapterSelected = chapters[chapterIndex]
-//     fs.mkdirSync(`imagenes/${data[manga_index_selected].title.en + chapterSelected.chapterNumber}`)
-//     api.downloadChapterImages(chapterSelected.id, `imagenes/${data[manga_index_selected].title.en + chapterSelected.chapterNumber}`)
+//     const chapters = await api.getChapters(data[manga_index_selected].id,20,0,["es-la"])
+//     console.table(chapters.chapters.map((chapter) => [chapter.chapterNumber, chapter.title]))
+//     console.log("ultima pagina",chapters.total)
+//     const chapterIndex = await makeQuestion("elige el capitulo por el indice no numero: ")
+//     const chapterSelected = chapters.chapters[chapterIndex]
+//     api.downloadChapterImages(chapterSelected,data[manga_index_selected])
 //     rl.close()
 // }
 // main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
